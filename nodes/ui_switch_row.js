@@ -10,13 +10,6 @@ module.exports = function(RED) {
         var tab = RED.nodes.getNode(config.tab);
         if (!tab) return;
 
-		this.on('input', function(msg) {
-            ui.emit('show-toast', {
-                title: msg.topic,
-                message: msg.payload
-            });
-        });
-		
 		
         var done = ui.add({
 			emitOnlyNewValues: false,
