@@ -1,0 +1,5 @@
+<div flex layout="row" layout-align="space-around center">
+    <md-button ng-repeat="button in me.item.buttons" class="md-icon-button" ng-click="me.buttonClick(button.topic)" aria-label="unknown">
+        <ng-md-icon icon="{{button.icon}}" style="fill: {{button.oncolor}}"></ng-md-icon><br>
+    </md-button>
+</div>

@@ -69,6 +69,9 @@ options:
 		If true, it checks if the payload changed before sending it
 		to the front-end. If the payload is the same no message is sent.
 	
+	[skipForwardingToOutputNode] - boolean (default false).
+		If true, will not pass any message to connected nodes
+		
 	[convert] - callback to convert the value before sending it to the front-end
 	[convertBack] - callback to convert the message from front-end before sending it to the next connected node
 	
@@ -76,6 +79,8 @@ options:
 	[beforeSend] - callback to prepare the message that is sent to the output 
 */
 function add(opt) {
+	if (typeof opt.skipForwardingToOutputNode === 'undefined')
+		opt.skipForwardingToOutputNode = false;
 	if (typeof opt.emitOnlyNewValues === 'undefined')
 		opt.emitOnlyNewValues = true;
 	opt.beforeEmit = opt.beforeEmit || beforeEmit;
@@ -105,8 +110,8 @@ function add(opt) {
 			toEmit.id = opt.node.id;
 			io.emit(updateValueEventName, toEmit);
 			replayMessages[opt.node.id] = toEmit;
- 
- 			if (opt.node._wireCount) {
+			
+			if (opt.node._wireCount && !opt.skipForwardingToOutputNode) {
 				//forward to output
 				msg.payload = opt.convertBack(newValue);
 				msg = opt.beforeSend(msg) || msg;

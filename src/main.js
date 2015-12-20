@@ -60,10 +60,23 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
         
         events.on(function (msg) {
             var found = findControl(msg.id, main.tabs);
-            for (var key in msg) {
+            
+			for (var key in msg) {
                 if (key === 'id') continue;
-                found[key] = msg[key];
-            }
+                
+				// Value management of switch-row status, updated all fields with request color
+				if (key=='SwitchRowChangedData') {
+					for (var i=0;i<found.buttons.length;i++) {
+						found.buttons[i].oncolor = msg.SwitchRowChangedData[i].oncolor;
+					}
+						
+				} else{
+					found[key] = msg[key];
+				}
+				
+			}
+			
+				
         });
         
         events.on('show-toast', function (msg) {

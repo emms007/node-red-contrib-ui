@@ -8,13 +8,34 @@ angular.module('ui').controller('uiComponentController', ['UiEvents', '$interpol
         
         me.init = function() {
             switch (me.item.type) {
-                case 'button':
+                case 'button': break;
+				
                 case 'button-row':
                     me.buttonClick = function (payload) {
                         if (payload) me.item.value = payload;
                         me.valueChanged(0);
                     }
                     break;
+					
+				case 'switch-row':
+                    me.buttonClick = function (topic) {
+						
+						if (topic) {
+							for (var i=0;i<me.item.buttons.length;i++) { // Lets go thru all buttons
+							
+							if (me.item.buttons[i].topic==topic) { // Switch currently push button to other boolean state - set the related topic/new val to its .value state so we may use it to wrap up the outgoing message
+								me.item.buttons[i].oncolor=me.item.buttons[i].oncolor.length==0 ? me.item.buttonsconfig[i].oncolor : '';
+								me.item.value={topic:topic, value:(me.item.buttons[i].oncolor.length==0?false:true)};
+							}	
+							}
+						}
+						
+						// Publish changes
+						me.valueChanged(0);
+						
+                    }
+                    break;
+					
                     
                 case 'numeric':
                     var changeValue = function(delta) {
