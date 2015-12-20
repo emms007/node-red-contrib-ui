@@ -40,9 +40,11 @@ module.exports = function(RED) {
 				for (var i=0;i<config.buttons.length;i++) {
 					//init with config color
 					newButtColor[i]={oncolor:config.buttons[i].oncolor};
+					newButtColor[i].change=false;
 					// rewrite if current butt must be changed
 					if (config.buttons[i].topic==msg.topic) {
 						newButtColor[i].oncolor=value?config.buttons[i].oncolor:'';
+						newButtColor[i].change=true;
 					}
 				}
 								

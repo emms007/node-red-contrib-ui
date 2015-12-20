@@ -67,7 +67,9 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
 				// Value management of switch-row status, updated all fields with request color
 				if (key=='SwitchRowChangedData') {
 					for (var i=0;i<found.buttons.length;i++) {
-						found.buttons[i].oncolor = msg.SwitchRowChangedData[i].oncolor;
+						if (msg.SwitchRowChangedData[i].change) { 
+							found.buttons[i].oncolor = msg.SwitchRowChangedData[i].oncolor;
+						}
 					}
 						
 				} else{
